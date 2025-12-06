@@ -3,7 +3,7 @@
 <PageTitle>Home</PageTitle>
 
 <!--Menu-->
-<h1>Our selection of pizzas</h1>
+@* <h1>Our selection of pizzas</h1>
 @foreach (var pizza in State.Menu.Pizzas)
 {
     <div class="row">
@@ -21,10 +21,16 @@
             <button class="btn btn-success" @onclick="@(()=>AddToBasket(pizza))">Add</button>
         </div>
     </div>
-}
+} *@
+<PizzaList  ButtonClass="btn btn-success pl-4 pr-4"
+            ButtonTitle="Order"
+            Items="@State.Menu.Pizzas"
+            Title="Our Selection of Pizzas"
+            Selected="@AddToBasket"
+    ></PizzaList>
 <!--End Menu-->
 <!--Shopping Basket-->
-@if (State.Basket.Orders.Any())
+@* @if (State.Basket.Orders.Any())
 {
     <h1 class="">Your current order</h1>
     @foreach (var (orderedPizza, pos) in State.Basket.Orders.Select((id, pos) => (State.Menu.GetPizza(id), pos)))
@@ -60,9 +66,14 @@
     </div>
     
 }
-<!--End Shopping Basket-->
+ *@
+ <ShoppingBasket Orders="@State.Basket.Orders"
+                 GetPizzaFromId="@State.Menu.GetPizza" 
+                 Selected="@RemoveFromBasket">
+</ShoppingBasket>
+ <!--End Shopping Basket-->
 <!--Customer Entry-->
-<h1 class="mt-2 mb-2">Pleas enter your details below</h1>
+@* <h1 class="mt-2 mb-2">Pleas enter your details below</h1>
 <EditForm Model="@State.Basket.Customer" OnValidSubmit="PlaceOrder">
     <DataAnnotationsValidator />
     <ValidationSummary />
@@ -98,7 +109,11 @@
             <button class="mx-auto w-25 btn btn-success" @onclick="PlaceOrder">Checkout</button>
         </div>
     </fieldset>
-</EditForm>
+</EditForm> *@
+<CustomerEntry ButtonClass="mx-auto w-25 btn btn-success" 
+               ButtonTitle="Checkout" @bind-Customer="@State.Basket.Customer"
+              Title="Please enter your details below" 
+              ValidSubmit="PlaceOrder" ></CustomerEntry>
 
 <!--End Customer Entry-->
 @State.ToJson()
