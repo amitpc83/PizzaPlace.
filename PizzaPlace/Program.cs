@@ -1,4 +1,5 @@
 using PizzaPlace.Components;
+using Shared;
 
 namespace PizzaPlace_
 {
@@ -11,6 +12,9 @@ namespace PizzaPlace_
             // Add services to the container.
             builder.Services.AddRazorComponents()
                 .AddInteractiveServerComponents();
+
+            builder.Services.AddTransient<IMenuService,HardCodedMenuService>();
+            builder.Services.AddTransient<IOrderService,ConsoleOrderService>();
 
             var app = builder.Build();
 
